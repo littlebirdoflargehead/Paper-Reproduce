@@ -1,5 +1,5 @@
 # Pycharm
 *.xml
-/.idea/
+*/.idea/
 /VAE/.idea/
 
