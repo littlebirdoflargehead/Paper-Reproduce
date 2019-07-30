@@ -23,11 +23,12 @@ def train(Config):
     train_dataloader = DataLoader(dataset=train_dataset,batch_size=Config.batch_size,shuffle=True,num_workers=Config.num_workers)
 
     # step2: 定义模型
-    generator = models.Generative_fc(z_dim=2)
-    discriminator = models.Discriminator_fc()
-    if Config.load_model_path:
-        generator.load(Config.load_model_path)
-        discriminator.load(Config.load_model_path)
+    generator = models.Generator_conv()
+    discriminator = models.Discriminator_conv()
+    if Config.load_generator_path:
+        generator.load(Config.load_generator_path)
+    if Config.load_discriminator_path:
+        discriminator.load(Config.load_discriminator_path)
     if Config.use_gpu:
         generator.to(Config.device)
         discriminator.to(Config.device)
@@ -35,22 +36,23 @@ def train(Config):
     # step3: 目标函数与优化器
 
     lr = Config.lr
-    optimizer_g = torch.optim.Adam(generator.parameters(),lr=10*lr,weight_decay=Config.weight_decay)
-    optimizer_d = torch.optim.Adam(discriminator.parameters(),lr=0.1*lr,weight_decay=Config.weight_decay)
+    optimizer_g = torch.optim.Adam(generator.parameters(),lr=lr,weight_decay=Config.weight_decay)
+    optimizer_d = torch.optim.Adam(discriminator.parameters(),lr=lr,weight_decay=Config.weight_decay)
 
 
     # 训练
+    GenerativePlot(generator, Config, random=True)
     for epoch in range(Config.max_epoch):
 
         for i ,(images,_) in enumerate(train_dataloader):
             if Config.use_gpu:
                 images = images.cuda()
-            images = images.view(-1, 28 * 28)
+            # images = images.view(-1, 28 * 28)
 
             if i%(Config.k+1)==Config.k:
                 # 该loop对生成器的参数进行更新
                 optimizer_g.zero_grad()
-                z = torch.randn(images.shape[0],generator.fc1.in_features).to(Config.device)
+                z = torch.randn(images.shape[0],generator.z_dim).to(Config.device)
                 generative_images = generator(z)
                 loss_g = G_loss(generative_images,discriminator)
                 loss_g.backward()
@@ -58,7 +60,7 @@ def train(Config):
             else:
                 # 该loop对判别器的参数进行更新
                 optimizer_d.zero_grad()
-                z = torch.randn(images.shape[0], generator.fc1.in_features).to(Config.device)
+                z = torch.randn(images.shape[0],generator.z_dim).to(Config.device)
                 generative_images = generator(z)
                 loss_d = D_loss(images,generative_images,discriminator)
                 loss_d.backward()
@@ -71,8 +73,10 @@ def train(Config):
 
 
         GenerativePlot(generator, Config,random=False)
+        GenerativePlot(generator, Config, random=True)
 
     generator.save()
+    discriminator.save()
 
 
 

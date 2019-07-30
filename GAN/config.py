@@ -12,7 +12,8 @@ class DefaultConfig(object):
 
     train_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
     test_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
-    load_model_path = None
+    load_generator_path = 'checkpoints/generator_conv-190730_21:56:36.pth'
+    load_discriminator_path = None
 
     batch_size = 128
     use_gpu = True
@@ -21,8 +22,8 @@ class DefaultConfig(object):
     print_freq = 150 # print info every N batch
 
     max_epoch = 80
-    k = 1 # trian the discriminator k times then train the generator one time
-    lr = 0.001 # initial learning rate
+    k = 5 # trian the discriminator k times then train the generator one time
+    lr = 0.0002 # initial learning rate
     lr_decay = 0.95 # when val_loss increase, lr = lr*lr_decay
     weight_decay = 1e-4
 

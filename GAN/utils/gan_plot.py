@@ -8,9 +8,9 @@ def GenerativePlot(generator,Config,random=True):
     '''
     显示Generator生成的图片
     '''
-    total_images = Config.total_images*4
-    image_per_row = Config.image_per_row*2
-    z_dim = generator.fc1.in_features
+    total_images = Config.total_images
+    image_per_row = Config.image_per_row
+    z_dim = generator.z_dim
 
     if random:
         z = 10*torch.randn(total_images,z_dim)
