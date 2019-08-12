@@ -5,12 +5,12 @@ from .BasicModule import BasicModule
 
 
 
-class VAE(BasicModule):
+class VampPriorVAE(BasicModule):
 
-    def __init__(self,image_size=28*28,hidden_dim=400,z_dim=20):
-        super(VAE,self).__init__()
+    def __init__(self,image_size=28*28,hidden_dim=400,z_dim=20,K=16):
+        super(VampPriorVAE,self).__init__()
 
-        self.model_name = 'vae'
+        self.model_name = 'vpvae'
 
         self.z_dim = z_dim
 
@@ -19,6 +19,8 @@ class VAE(BasicModule):
         self.fc22 = nn.Linear(hidden_dim,z_dim)
         self.fc3 = nn.Linear(z_dim,hidden_dim)
         self.fc4 = nn.Linear(hidden_dim,image_size)
+
+        self.pseudo_input = nn.parameter.Parameter(torch.Tensor(K, image_size))
 
     def encoder(self,x):
         h1 = self.fc1(x)

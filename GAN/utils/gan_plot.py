@@ -13,7 +13,7 @@ def GenerativePlot(generator,Config,random=True):
     z_dim = generator.z_dim
 
     if random:
-        z = 10*torch.randn(total_images,z_dim)
+        z = torch.randn(total_images,z_dim)
     else:
         z = torch.randn(1, z_dim)
         z = z.expand(total_images, -1).clone()

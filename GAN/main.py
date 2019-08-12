@@ -75,8 +75,9 @@ def train(Config):
         GenerativePlot(generator, Config,random=False)
         GenerativePlot(generator, Config, random=True)
 
-    generator.save()
-    discriminator.save()
+    g_path = generator.save()
+    d_path = discriminator.save()
+    print('generator: ',g_path,'discriminator: ',d_path)
 
 
 

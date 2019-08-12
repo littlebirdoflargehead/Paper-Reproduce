@@ -18,7 +18,7 @@ class DefaultConfig(object):
     use_gpu = True
     device = torch.device('cuda') if use_gpu else torch.device('cpu')
     num_workers = 4
-    print_freq = 150 # print info every N batch
+    print_freq = 200 # print info every N batch
 
     max_epoch = 20
     lr = 0.001 # initial learning rate

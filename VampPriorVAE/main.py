@@ -3,7 +3,7 @@ import models
 from torch.utils.data import DataLoader
 import torchvision
 import torchvision.transforms as transforms
-from utils import VAE_Loss,ImageVsReImagePlot,GenerativePlot
+from utils import VAE_Loss,VampPriorVAE_Loss,ImageVsReImagePlot,GenerativePlot
 from config import Config
 
 
@@ -44,8 +44,10 @@ def train(Config):
             images = images.view(-1, 28 * 28)
 
             optimizer.zero_grad()
-            re_images,mu,logvar = model(images)
-            loss = VAE_Loss(images,re_images,mu,logvar)
+            loss = VampPriorVAE_Loss(images, model)
+            re_images, _, _ = model(images)
+            # re_images,mu,logvar = model(images)
+            # loss = VAE_Loss(images,re_images,mu,logvar)
 
             loss.backward()
             optimizer.step()

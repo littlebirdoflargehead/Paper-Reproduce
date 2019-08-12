@@ -8,24 +8,20 @@ class DefaultConfig(object):
     定义默认设置的类，改变实验参数只须要调整config文件即可
     '''
     env = 'default'
-    model = 'GAN'
+    model = 'VampPriorVAE'
 
     train_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
     test_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
-    # load_generator_path = 'checkpoints/generator_conv-190731_19:59:47.pth'
-    load_generator_path = None
-    # load_discriminator_path = 'checkpoints/discriminator_conv-190731_19:59:47.pth'
-    load_discriminator_path = None
+    load_model_path = None
 
     batch_size = 128
     use_gpu = True
     device = torch.device('cuda') if use_gpu else torch.device('cpu')
     num_workers = 4
-    print_freq = 150 # print info every N batch
+    print_freq = 200 # print info every N batch
 
-    max_epoch = 80
-    k = 2 # trian the discriminator k times then train the generator one time
-    lr = 0.00015 # initial learning rate
+    max_epoch = 20
+    lr = 0.001 # initial learning rate
     lr_decay = 0.95 # when val_loss increase, lr = lr*lr_decay
     weight_decay = 1e-4
 
