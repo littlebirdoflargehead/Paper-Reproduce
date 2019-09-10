@@ -7,7 +7,7 @@ from .BasicModule import BasicModule
 
 class VampPriorVAE(BasicModule):
 
-    def __init__(self,image_size=28*28,hidden_dim=400,z_dim=20,K=16):
+    def __init__(self,image_size=28*28,hidden_dim=400,z_dim=20,K=64):
         super(VampPriorVAE,self).__init__()
 
         self.model_name = 'vpvae'
@@ -20,7 +20,8 @@ class VampPriorVAE(BasicModule):
         self.fc3 = nn.Linear(z_dim,hidden_dim)
         self.fc4 = nn.Linear(hidden_dim,image_size)
 
-        self.pseudo_input = nn.parameter.Parameter(torch.Tensor(K, image_size))
+        self.idle_input = nn.parameter.Parameter(torch.eye(K),requires_grad=False)
+        self.pseudo = nn.Linear(K,image_size)
 
     def encoder(self,x):
         h1 = self.fc1(x)
@@ -38,6 +39,10 @@ class VampPriorVAE(BasicModule):
         std = torch.exp(0.5*logvar)
         z = mu+epslon*std
         return z,epslon
+
+    def pseudo_image(self):
+        pseudo_images = torch.sigmoid(self.pseudo(self.idle_input))
+        return pseudo_images
 
     def forward(self, x):
         mu,logvar = self.encoder(x)

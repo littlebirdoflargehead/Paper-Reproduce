@@ -10,8 +10,8 @@ class DefaultConfig(object):
     env = 'default'
     model = 'GAN'
 
-    train_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
-    test_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
+    train_data_root = '/home2/liangjw/Documents/DataSet'
+    test_data_root = '/home2/liangjw/Documents/DataSet'
     # load_generator_path = 'checkpoints/generator_conv-190731_19:59:47.pth'
     load_generator_path = None
     # load_discriminator_path = 'checkpoints/discriminator_conv-190731_19:59:47.pth'

@@ -1,7 +1,34 @@
 import os
 from PIL import Image
+import torch
+import torchvision
+import pickle
 from torch.utils import data
 import torchvision.transforms as T
+
+
+
+
+class FreyFaces(data.Dataset):
+
+    def __init__(self, root, transforms=None):
+
+        if not transforms:
+            self.transforms = torchvision.transforms.ToTensor()
+        else:
+            self.transforms = transforms
+
+        f = open(os.path.join(root,'Freyfaces','freyfaces.pkl'), 'rb')
+        x = pickle.load(f, encoding='latin1')
+        self.data = torch.from_numpy(1-x).view(-1,28,20)
+
+    def __getitem__(self, index):
+        data = self.data[index]
+        return data
+
+    def __len__(self):
+        return self.data.shape[0]
+
 
 
 class DogCat(data.Dataset):

@@ -16,7 +16,7 @@ def VampPriorVAE_Loss(images,model):
     z, _ = model.reparameter_trick(mu, logvar)
     re_images = model.decoder(z)
 
-    pseudo_images = torch.sigmoid(model.pseudo_input)
+    pseudo_images = model.pseudo_image()
     mu_k, logvar_k = model.encoder(pseudo_images)
     PCE = 0
     for j in range(len(z)):

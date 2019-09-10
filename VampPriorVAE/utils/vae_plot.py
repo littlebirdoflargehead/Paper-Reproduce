@@ -1,5 +1,6 @@
 import torch
 import torchvision
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -25,7 +26,10 @@ def GenerativePlot(model,Config,random=True):
     z_dim = model.z_dim
 
     if random:
-        z = torch.randn(total_images,z_dim)
+        pseudo_index = np.random.randint(1,model.idle_input.shape[0],total_images)
+        pseudo_images = model.pseudo_image()[pseudo_index]
+        mu, logvar = model.encoder(pseudo_images)
+        z,_ = model.reparameter_trick(mu,logvar)
     else:
         z = torch.randn(1, z_dim)
         z = z.expand(total_images, -1).clone()

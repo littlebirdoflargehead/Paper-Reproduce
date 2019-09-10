@@ -3,8 +3,9 @@ import models
 from torch.utils.data import DataLoader
 import torchvision
 import torchvision.transforms as transforms
-from utils import VAE_Loss,VampPriorVAE_Loss,ImageVsReImagePlot,GenerativePlot
+from utils import VampPriorVAE_Loss,ImageVsReImagePlot,GenerativePlot
 from config import Config
+import matplotlib.pyplot as plt
 
 
 
@@ -61,6 +62,11 @@ def train(Config):
 
         model.save()
         GenerativePlot(model, Config,random=True)
+        pseudo_images = model.pseudo_image()
+        pseudo_images = pseudo_images.view(-1, 1, 28, 28)
+        generative_images = torchvision.utils.make_grid(pseudo_images, nrow=8).permute(1, 2, 0).detach().cpu()
+        plt.imshow(generative_images)
+        plt.show()
 
 
 def Marginal_Likelihood_Evaluate(model,Config):

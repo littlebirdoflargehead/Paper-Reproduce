@@ -10,8 +10,8 @@ class DefaultConfig(object):
     env = 'default'
     model = 'VampPriorVAE'
 
-    train_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
-    test_data_root = '/home2/liangjw/Documents/Pycharm_project/Pytorch_test/data'
+    train_data_root = '/home2/liangjw/Documents/DataSet'
+    test_data_root = '/home2/liangjw/Documents/DataSet'
     load_model_path = None
 
     batch_size = 128
